@@ -13,7 +13,7 @@ Copy-Item (Join-Path $root 'payload/*') (Join-Path $stage 'payload') -Recurse -F
 Copy-Item (Join-Path $root 'docs') $stage -Recurse -Force
 Copy-Item (Join-Path $root 'README.txt') $stage -Force
 
-7z a -t7z -mx=9 -ms=on -y (Join-Path $root 'payload.7z') "$stage\*"
+7z a -t7z -mx=9 -m0=lzma2:d=32m -ms=on -y (Join-Path $root 'payload.7z') "$stage\*"
 
 dotnet publish (Join-Path $root 'src/Lovebird.Setup/Lovebird.Setup.csproj') -c Release -r win-x64 `
   --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true `

@@ -3,10 +3,6 @@
 Single-player launcher for OptiScaler with two modes: upscale only, or upscale
 plus FSR3 frame generation.
 
-The interface follows my Hyprland/Catppuccin desktop: accent `#8dcfe5`,
-JetBrains Mono, the little island at the top, and a blurred wallpaper behind
-the library. Every start rolls a random The Neighbourhood track in that island.
-
 ## Running it
 
 Download the archive from [Releases](https://github.com/Astriit/Lovebird-/releases)

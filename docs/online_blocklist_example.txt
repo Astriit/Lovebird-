@@ -1,0 +1,7 @@
+# Extra online games you want the scanner to ignore.
+# Copy this to %APPDATA%\Lovebird\online_blocklist.txt
+# and add your own names, one per line. Lines starting with # are ignored.
+
+# Example:
+# My Online Game
+# Some Competitive Shooter

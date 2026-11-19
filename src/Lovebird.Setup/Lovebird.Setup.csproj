@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Lovebird.Setup</RootNamespace>
+    <AssemblyName>Lovebird Setup</AssemblyName>
+    <ApplicationIcon>assets/Lovebird.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="SharpCompress" Version="0.50.10" />
+    <Compile Include="../Lovebird/Theme.cs" Link="Theme.cs" />
+    <EmbeddedResource Include="../../payload.7z" LogicalName="Lovebird.Setup.payload.7z" />
+    <None Update="assets/*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

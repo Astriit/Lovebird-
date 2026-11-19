@@ -1,0 +1,7 @@
+bin/
+obj/
+*.exe
+*.7z
+payload/*.dll
+payload/*.ini
+payload/D3D12_Optiscaler/

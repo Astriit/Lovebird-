@@ -44,13 +44,13 @@ internal sealed class SettingsForm : Form
         about.Click += (_, _) => MessageBox.Show(this,
             "Lovebird 1.0\n\nSingle-player launcher for OptiScaler.\n" +
             "Mode 01 — upscale only.\nMode 02 — upscale + FSR3 frame generation.\n\n" +
-            "Colors from my Hyprland/Catppuccin setup (#8dcfe5).\n" +
+            "Dark launcher-style theme with a blue accent (#0078F2).\n" +
             "In game: Insert — OptiScaler menu, End — toggle FG.\n\n" +
             "Never use this in games with online anti-cheat.", "Lovebird", MessageBoxButtons.OK, MessageBoxIcon.Information);
         Controls.Add(openData); Controls.Add(openList); Controls.Add(about);
 
         var close = new RoundButton { Text = "CLOSE", Location = new Point(396, 292), Size = new Size(140, 36),
-            BaseColor = Theme.Accent, HoverColor = Color.FromArgb(164, 222, 239), ForeColor2 = Theme.Bg };
+            BaseColor = Theme.Accent, HoverColor = Theme.AccentHover, ForeColor2 = Theme.Bg };
         close.Click += (_, _) => Close();
         Controls.Add(close);
     }

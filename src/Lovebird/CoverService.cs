@@ -124,12 +124,12 @@ internal static class CoverService
         using (Graphics g = Graphics.FromImage(bmp))
         {
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.Clear(Color.FromArgb(18, 19, 24));
+            g.Clear(Theme.Panel);
             using (var grad = new LinearGradientBrush(new Rectangle(0, 0, 300, 420),
-                       Color.FromArgb(28, 32, 40), Color.FromArgb(11, 11, 13), 70f))
+                       Theme.PanelHi, Theme.Bg, 70f))
                 g.FillRectangle(grad, new Rectangle(0, 0, 300, 420));
 
-            using (var pen = new Pen(Color.FromArgb(42, 46, 54)))
+            using (var pen = new Pen(Theme.Border))
                 for (int i = -420; i < 300; i += 26) g.DrawLine(pen, i, 420, i + 420, 0);
 
             Theme.StrokeRound(g, new Rectangle(10, 10, 279, 399), 12, Theme.Border, 2f);

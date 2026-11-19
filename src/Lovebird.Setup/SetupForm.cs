@@ -48,7 +48,7 @@ internal sealed class SetupForm : Form
 
     private void BuildChrome()
     {
-        _chrome = new Panel { Dock = DockStyle.Top, Height = 44, BackColor = Color.FromArgb(13, 14, 17) };
+        _chrome = new Panel { Dock = DockStyle.Top, Height = 44, BackColor = Theme.Bg };
         _chrome.Controls.Add(new Label { Text = "♥  LOVEBIRD 1.0  /  SETUP", Location = new Point(20, 10),
             Size = new Size(500, 24), ForeColor = Theme.Accent, Font = Theme.Font(11f, FontStyle.Bold) });
         var close = new RoundButton { Text = "×", Location = new Point(900 - 42, 8), Size = new Size(32, 28), Radius = 7 };
@@ -84,7 +84,7 @@ internal sealed class SetupForm : Form
         _welcome.Controls.Add(_driveInfo);
 
         _next = new RoundButton { Text = "NEXT  →", Location = new Point(350, 470), Size = new Size(200, 42),
-            BaseColor = Theme.Accent, HoverColor = Color.FromArgb(164, 222, 239), ForeColor2 = Theme.Bg,
+            BaseColor = Theme.Accent, HoverColor = Theme.AccentHover, ForeColor2 = Theme.Bg,
             Font = Theme.Font(10f, FontStyle.Bold) };
         _next.Click += (_, _) => ShowPage(_pathPage);
         _welcome.Controls.Add(_next);
@@ -128,7 +128,7 @@ internal sealed class SetupForm : Form
         var back = new RoundButton { Text = "← BACK", Location = new Point(40, 500), Size = new Size(160, 38) };
         back.Click += (_, _) => ShowPage(_welcome);
         _install = new RoundButton { Text = "INSTALL  →", Location = new Point(640, 500), Size = new Size(220, 38),
-            BaseColor = Theme.Accent, HoverColor = Color.FromArgb(164, 222, 239), ForeColor2 = Theme.Bg,
+            BaseColor = Theme.Accent, HoverColor = Theme.AccentHover, ForeColor2 = Theme.Bg,
             Font = Theme.Font(10f, FontStyle.Bold) };
         _install.Click += async (_, _) => await InstallAsync();
         _pathPage.Controls.Add(back); _pathPage.Controls.Add(_install);
@@ -160,7 +160,7 @@ internal sealed class SetupForm : Form
             ForeColor = Theme.Muted, Font = Theme.Font(9f), TextAlign = ContentAlignment.MiddleCenter };
         _donePage.Controls.Add(_doneLabel);
         _launch = new RoundButton { Text = "LAUNCH LOVEBIRD", Location = new Point(220, 320), Size = new Size(230, 42),
-            BaseColor = Theme.Accent, HoverColor = Color.FromArgb(164, 222, 239), ForeColor2 = Theme.Bg,
+            BaseColor = Theme.Accent, HoverColor = Theme.AccentHover, ForeColor2 = Theme.Bg,
             Font = Theme.Font(10f, FontStyle.Bold) };
         _launch.Click += (_, _) =>
         {

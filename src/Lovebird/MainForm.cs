@@ -5,11 +5,13 @@ namespace Lovebird;
 
 internal sealed class MainForm : Form
 {
-    private Panel _top = null!, _side = null!, _content = null!, _header = null!, _modeRow = null!;
-    private Panel _action = null!, _status = null!, _loading = null!;
-    private FlowLayoutPanel _grid = null!;
+    private GlassPanel _top = null!, _side = null!, _header = null!, _modeRow = null!;
+    private GlassPanel _action = null!, _status = null!, _loading = null!;
+    private BackdropPanel _content = null!;
+    private GlassFlowLayoutPanel _grid = null!;
     private TextBox _search = null!;
     private RoundButton _btnScan = null!, _btnSettings = null!, _btnAdd = null!, _btnRestore = null!, _btnLaunch = null!;
+    private WindowButton _btnMin = null!, _btnMax = null!, _btnClose = null!;
     private readonly List<RoundButton> _filters = new();
     private ModeCard _mode1 = null!, _mode2 = null!;
     private IslandBar _island = null!;
@@ -71,7 +73,7 @@ internal sealed class MainForm : Form
     private void BuildUi()
     {
         // ---- bottom status ----
-        _status = new Panel { Dock = DockStyle.Bottom, Height = 28, BackColor = Color.FromArgb(13, 14, 17) };
+        _status = new GlassPanel { Dock = DockStyle.Bottom, Height = 28, FillColor = Theme.GlassDark };
         _status.Controls.Add(new Label
         {
             Text = "LOVEBIRD 1.0  •  OPTISCALER / MFG  •  SINGLE-PLAYER ONLY",
@@ -84,27 +86,31 @@ internal sealed class MainForm : Form
         Controls.Add(_status);
 
         // ---- top island / title bar ----
-        _top = new Panel { Dock = DockStyle.Top, Height = 66, BackColor = Color.FromArgb(13, 14, 17) };
-        _top.Controls.Add(new Label { Text = "♥  LOVEBIRD", Location = new Point(20, 15), Size = new Size(210, 36),
-            ForeColor = Theme.Accent, Font = Theme.Font(15f, FontStyle.Bold) });
+        _top = new GlassPanel { Dock = DockStyle.Top, Height = 66, FillColor = Theme.GlassDark };
+        _top.Controls.Add(new Label { Text = "LOVEBIRD", Location = new Point(20, 15), Size = new Size(180, 36),
+            ForeColor = Theme.Text, Font = Theme.Font(14f, FontStyle.Bold) });
         _island = new IslandBar { Location = new Point(405, 15), Size = new Size(470, 36) };
         _island.Reroll += (_, _) => RollSong();
         _top.Controls.Add(_island);
 
-        var min = new RoundButton { Text = "—", Location = new Point(1280 - 84, 18), Size = new Size(34, 28),
-            Radius = 7, Font = Theme.Font(10f), Anchor = AnchorStyles.Top | AnchorStyles.Right };
-        min.Click += (_, _) => WindowState = FormWindowState.Minimized;
-        var close = new RoundButton { Text = "×", Location = new Point(1280 - 42, 18), Size = new Size(34, 28),
-            Radius = 7, Font = Theme.Font(12f), Anchor = AnchorStyles.Top | AnchorStyles.Right };
-        close.Click += (_, _) => Close();
-        _top.Controls.Add(min); _top.Controls.Add(close);
+        _btnMin = new WindowButton { Kind = WindowButton.ButtonKind.Minimize,
+            Location = new Point(1280 - 126, 17), Anchor = AnchorStyles.Top | AnchorStyles.Right };
+        _btnMin.Click += (_, _) => WindowState = FormWindowState.Minimized;
+        _btnMax = new WindowButton { Kind = WindowButton.ButtonKind.Maximize,
+            Location = new Point(1280 - 84, 17), Anchor = AnchorStyles.Top | AnchorStyles.Right };
+        _btnMax.Click += (_, _) => WindowState = WindowState == FormWindowState.Maximized
+            ? FormWindowState.Normal : FormWindowState.Maximized;
+        _btnClose = new WindowButton { Kind = WindowButton.ButtonKind.Close,
+            Location = new Point(1280 - 42, 17), Anchor = AnchorStyles.Top | AnchorStyles.Right };
+        _btnClose.Click += (_, _) => Close();
+        _top.Controls.Add(_btnMin); _top.Controls.Add(_btnMax); _top.Controls.Add(_btnClose);
         _top.MouseDown += TopMouseDown;
         _top.MouseMove += TopMouseMove;
         _top.MouseUp += (_, _) => _drag = false;
         Controls.Add(_top);
 
         // ---- sidebar ----
-        _side = new Panel { Dock = DockStyle.Left, Width = 232, BackColor = Theme.Panel };
+        _side = new GlassPanel { Dock = DockStyle.Left, Width = 232, FillColor = Theme.Glass };
         _side.Controls.Add(new Label { Text = "LIBRARY", Location = new Point(20, 18), Size = new Size(192, 22),
             ForeColor = Theme.Text, Font = Theme.Font(10f, FontStyle.Bold) });
         _search = new TextBox { Location = new Point(20, 50), Size = new Size(192, 32), BackColor = Theme.PanelHi,
@@ -151,8 +157,8 @@ internal sealed class MainForm : Form
         // ---- main content ----
         _content = new BackdropPanel { Dock = DockStyle.Fill, Backdrop = _bg };
 
-        _header = new Panel { Location = new Point(0, 0), Size = new Size(1048, 84),
-            BackColor = Color.Transparent,
+        _header = new GlassPanel { Location = new Point(0, 0), Size = new Size(1048, 84),
+            FillColor = Color.Transparent,
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right };
         _lblTitle = new Label { Text = "Select a game", Location = new Point(24, 12), Size = new Size(700, 30),
             ForeColor = Theme.Text, Font = Theme.Font(16f, FontStyle.Bold) };
@@ -163,8 +169,8 @@ internal sealed class MainForm : Form
         _btnRestore.Click += RestoreSelected;
         _header.Controls.Add(_lblTitle); _header.Controls.Add(_lblPath); _header.Controls.Add(_btnRestore);
 
-        _modeRow = new Panel { Location = new Point(0, 84), Size = new Size(1048, 104),
-            BackColor = Color.Transparent,
+        _modeRow = new GlassPanel { Location = new Point(0, 84), Size = new Size(1048, 104),
+            FillColor = Color.Transparent,
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right };
         _modeRow.Controls.Add(new Label { Text = "WORK MODE", Location = new Point(24, 8),
             Size = new Size(300, 20), ForeColor = Theme.Muted, Font = Theme.Font(8f, FontStyle.Bold) });
@@ -179,16 +185,16 @@ internal sealed class MainForm : Form
             Location = new Point(660, 52), Size = new Size(380, 24), ForeColor = Theme.Muted, Font = Theme.Font(8f),
             Anchor = AnchorStyles.Top | AnchorStyles.Right });
 
-        _grid = new FlowLayoutPanel { Location = new Point(0, 192), Size = new Size(1048, 500),
+        _grid = new GlassFlowLayoutPanel { Location = new Point(0, 192), Size = new Size(1048, 500),
             Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
             AutoScroll = true, WrapContents = true, FlowDirection = FlowDirection.LeftToRight,
-            Padding = new Padding(18, 10, 18, 10), BackColor = Color.FromArgb(11, 11, 13) };
+            Padding = new Padding(18, 10, 18, 10) };
 
-        _action = new Panel { Location = new Point(0, 700), Size = new Size(1048, 78),
+        _action = new GlassPanel { Location = new Point(0, 700), Size = new Size(1048, 78),
             Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
-            BackColor = Color.FromArgb(13, 14, 17) };
+            FillColor = Theme.GlassDark };
         _btnLaunch = new RoundButton { Text = "LAUNCH  →", Location = new Point(24, 18), Size = new Size(240, 42),
-            BaseColor = Theme.Accent, HoverColor = Color.FromArgb(164, 222, 239), ForeColor2 = Theme.Bg,
+            BaseColor = Theme.Accent, HoverColor = Theme.AccentHover, ForeColor2 = Theme.Bg,
             Font = Theme.Font(11f, FontStyle.Bold), Enabled = false };
         _btnLaunch.Click += LaunchSelected;
         _lblAction = new Label { Text = "Pick a game from the library", Location = new Point(284, 18),
@@ -199,7 +205,7 @@ internal sealed class MainForm : Form
         Controls.Add(_content);
 
         // ---- scanning overlay ----
-        _loading = new Panel { Dock = DockStyle.Fill, BackColor = Color.FromArgb(11, 11, 13), Visible = false };
+        _loading = new GlassPanel { Dock = DockStyle.Fill, FillColor = Theme.GlassDark, Visible = false };
         _lblLoading = new Label { Text = "Scanning drives…", Location = new Point(0, 370), Size = new Size(1280, 40),
             ForeColor = Theme.Accent, Font = Theme.Font(12f), TextAlign = ContentAlignment.MiddleCenter };
         _loading.Controls.Add(_lblLoading);
@@ -209,15 +215,19 @@ internal sealed class MainForm : Form
     protected override void OnResize(EventArgs e)
     {
         base.OnResize(e);
-        if (_island != null && _top != null)
-            _island.Left = Math.Max(215, (_top.ClientSize.Width - _island.Width) / 2);
+        if (_island != null && _top != null && _btnClose != null)
+        {
+            int left = Math.Max(215, (_top.ClientSize.Width - _island.Width) / 2);
+            int limit = _btnClose.Left - 14 - _island.Width;
+            _island.Left = Math.Min(left, Math.Max(215, limit));
+        }
     }
 
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
         if (_bg != null) e.Graphics.DrawImage(_bg, new Rectangle(0, 0, Width, Height));
-        using var veil = new SolidBrush(Color.FromArgb(232, 11, 11, 13));
+        using var veil = new SolidBrush(Color.FromArgb(205, 18, 18, 18));
         e.Graphics.FillRectangle(veil, ClientRectangle);
         e.Graphics.FillRectangle(new SolidBrush(Theme.Accent), 0, 0, Width, 2);
     }

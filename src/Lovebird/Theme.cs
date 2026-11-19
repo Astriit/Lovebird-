@@ -3,26 +3,30 @@ using System.Drawing.Text;
 
 namespace Lovebird;
 
-// Colors from my Hyprland/waybar setup. Keep these in sync with wal-colors.lua.
+// Dark theme in the same spirit as the Epic Games launcher.
 internal static class Theme
 {
-    public static readonly Color Bg = Color.FromArgb(11, 11, 13);
-    public static readonly Color Panel = Color.FromArgb(17, 18, 22);
-    public static readonly Color PanelHi = Color.FromArgb(24, 26, 31);
-    public static readonly Color Card = Color.FromArgb(22, 23, 28);
-    public static readonly Color Text = Color.FromArgb(200, 200, 200);   // #c8c8c8
-    public static readonly Color Muted = Color.FromArgb(122, 126, 136);
-    public static readonly Color Accent = Color.FromArgb(141, 207, 229); // #8dcfe5 from wal-colors.lua
-    public static readonly Color Border = Color.FromArgb(42, 46, 54);
-    public static readonly Color Good = Color.FromArgb(166, 227, 161);
-    public static readonly Color Warn = Color.FromArgb(249, 226, 175);
+    public static readonly Color Bg = Color.FromArgb(18, 18, 18);
+    public static readonly Color Panel = Color.FromArgb(27, 27, 27);
+    public static readonly Color PanelHi = Color.FromArgb(42, 42, 42);
+    public static readonly Color Card = Color.FromArgb(36, 36, 36);
+    public static readonly Color Text = Color.FromArgb(245, 245, 245);
+    public static readonly Color Muted = Color.FromArgb(168, 168, 168);
+    public static readonly Color Accent = Color.FromArgb(0, 120, 242);
+    public static readonly Color AccentHover = Color.FromArgb(46, 144, 255);
+    public static readonly Color Border = Color.FromArgb(51, 51, 51);
+    public static readonly Color Good = Color.FromArgb(46, 204, 113);
+    public static readonly Color Warn = Color.FromArgb(245, 166, 35);
+    public static readonly Color Danger = Color.FromArgb(232, 17, 35);
+    public static readonly Color Glass = Color.FromArgb(225, 24, 24, 24);
+    public static readonly Color GlassDark = Color.FromArgb(235, 18, 18, 18);
 
     private static readonly InstalledFontCollection Installed = new();
 
     public static Font Font(float size, FontStyle style = FontStyle.Regular)
     {
-        string family = "Consolas";
-        foreach (string candidate in new[] { "JetBrains Mono", "Cascadia Mono", "Consolas", "Menlo" })
+        string family = "Arial";
+        foreach (string candidate in new[] { "Segoe UI", "Inter", "Arial" })
         {
             if (Installed.Families.Any(f => f.Name.Equals(candidate, StringComparison.OrdinalIgnoreCase)))
             {
@@ -85,9 +89,9 @@ internal sealed class RoundButton : Button
 {
     private bool _hover;
     public Color BaseColor { get; set; } = Theme.PanelHi;
-    public Color HoverColor { get; set; } = Theme.Accent;
+    public Color HoverColor { get; set; } = Theme.PanelHi;
     public Color ForeColor2 { get; set; } = Theme.Text;
-    public int Radius { get; set; } = 9;
+    public int Radius { get; set; } = 6;
 
     public RoundButton()
     {
@@ -104,12 +108,11 @@ internal sealed class RoundButton : Button
     {
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
         var r = new Rectangle(0, 0, Width - 1, Height - 1);
-        bool accent = HoverColor == Theme.Accent && BaseColor == Theme.Accent;
-        Color fill = accent ? (_hover ? Color.FromArgb(164, 222, 239) : Theme.Accent)
-                            : (_hover ? HoverColor : BaseColor);
+        bool accent = BaseColor == Theme.Accent;
+        Color fill = accent ? (_hover ? Theme.AccentHover : Theme.Accent) : (_hover ? HoverColor : BaseColor);
         Theme.FillRound(e.Graphics, r, Radius, fill);
         if (!accent) Theme.StrokeRound(e.Graphics, r, Radius, _hover ? Theme.Accent : Theme.Border);
-        Theme.String(e.Graphics, Text, Font, accent ? Theme.Bg : (_hover && !accent ? Theme.Bg : ForeColor2),
+        Theme.String(e.Graphics, Text, Font, accent || _hover ? Color.White : ForeColor2,
             new Rectangle(6, 0, Width - 12, Height), new StringFormat
             {
                 Alignment = StringAlignment.Center,

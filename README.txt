@@ -1,10 +1,10 @@
 Lovebird 1.0
 Single-player launcher for OptiScaler / frame generation
 
-Colors and layout follow my Hyprland/Catppuccin desktop: accent #8dcfe5,
-JetBrains Mono with a fallback, the little island at the top, and a blurred
-wallpaper behind the library. Every start rolls a random The Neighbourhood
-track in that island.
+The interface uses a dark launcher-style theme with a blue #0078F2 accent,
+Segoe UI, translucent panels and a blurred wallpaper behind the library. The
+window has its own minimize, maximize and close buttons. Every start rolls a
+random The Neighbourhood track in the island at the top.
 
 RUNNING IT
 
